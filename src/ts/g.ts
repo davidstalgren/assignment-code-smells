@@ -4,7 +4,7 @@
   dessa hopplängder.
   */
 
-function getLength(jumpings: number[]): number {
+/* function getLength(jumpings: number[]): number {
   let totalNumber = 0;
 
   totalNumber = jumpings.reduce(
@@ -12,6 +12,10 @@ function getLength(jumpings: number[]): number {
   );
 
   return totalNumber;
+} */
+
+function getLength(jumpings: number[]): number {
+  return jumpings.reduce((jumpDistanceSoFar, currentJump) => jumpDistanceSoFar + currentJump);
 }
 
 /*
@@ -46,7 +50,7 @@ function getStudentStatus(student: Student): string {
   Det finns flera code smells att identifiera här. Vissa är lurigare än andra.
   */
 
-class Temp {
+/* class Temp {
   constructor(public q: string, public where: Date, public v: number) {}
 }
 
@@ -62,6 +66,27 @@ function averageWeeklyTemperature(heights: Temp[]) {
   }
 
   return r / 7;
+} */
+
+class Temp {
+  constructor(
+    public city: string, 
+    public dateToday: Date, 
+    public temperature: number) {}
+}
+
+function averageWeeklyTemperature(weeklyTemperature: Temp[]) {
+  const MILLISECONDS_IN_A_WEEK: number = 604800000;
+  const DAYS_IN_A_WEEK: number = 7;
+  let averageDayTemperature: number = 0;
+
+  for (let i = 0; i < weeklyTemperature.length; i++) {
+    if (weeklyTemperature[i].city === "Stockholm" && weeklyTemperature[i].dateToday.getTime() > Date.now() - MILLISECONDS_IN_A_WEEK) {
+        averageDayTemperature += weeklyTemperature[i].temperature;
+    }
+  }
+
+  return averageDayTemperature / DAYS_IN_A_WEEK;
 }
 
 /*
@@ -125,7 +150,7 @@ function presentStudents(students: Student[]) {
   Lorem, ipsum, dolor, sit, amet
   Exemplet under löser problemet, men inte speciellt bra. Hur kan man göra istället?
   */
-function concatenateStrings() {
+/* function concatenateStrings() {
   let result = "";
   result += "Lorem";
   result += "ipsum";
@@ -134,6 +159,11 @@ function concatenateStrings() {
   result += "amet";
 
   return result;
+} */
+
+function concatenateStrings() {
+  const strings = ["Lorem", "ipsum", "dolor", "sit", "amet"];
+  return strings.join(", ");
 }
 
 /* 
