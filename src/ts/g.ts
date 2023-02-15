@@ -209,24 +209,29 @@ function concatenateStrings() {
     return "Du är under 20 år";
   }
 } */
+const MINIMUM_REQIRED_AGE: number = 20;
+const WEIRD_UNIX_TIME_STAMP: number = 1970;
 
-
-function createUser(
-  name: string,
-  birthday: Date,
-  email: string,
-  password: string
-) {
-  // Validation
-  const minimumRequiredAge: number = 20;
-
-function getUserAge(): number {
-  let ageDiff = Date.now() - birthday.getTime();
-  let ageDate = new Date(ageDiff);
-  return userAge= Math.abs(ageDate.getUTCFullYear() - 1970);
+class User {
+  constructor (
+    public userName: string,
+    public birthday: Date,
+    public email: string,
+    public password: string,
+  ) {}
 }
 
-  if (userAge > minimumRequiredAge) {
+function getUserAge(birthday: Date): number {
+  let ageDiff = Date.now() - birthday.getTime();
+  let ageDate = new Date(ageDiff);
+  const userAge = Math.abs(ageDate.getUTCFullYear() - WEIRD_UNIX_TIME_STAMP);
+  return userAge;
+}
+
+function createUser(user: User) {
+  const userAge = getUserAge(user.birthday);
+
+  if (userAge >= MINIMUM_REQIRED_AGE) {
     // Logik för att skapa en användare
   } else {
     return "Du är under 20 år";
