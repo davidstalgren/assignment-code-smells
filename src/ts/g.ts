@@ -22,7 +22,7 @@ function getLength(jumpings: number[]): number {
   2. I detta exempel har vi fokuserat på if-statements. Se om du kan göra exemplet bättre!
   */
 
-class Student {
+/* class Student {
   constructor(
     public name: string,
     public handedInOnTime: boolean,
@@ -43,7 +43,24 @@ function getStudentStatus(student: Student): string {
   } else {
     return "IG";
   }
+} */
+
+
+class Student {
+  constructor(
+    public name: string,
+    public handedInOnTime: boolean
+  ) {}
 }
+
+function getStudentStatus(student: Student): string {
+    if (student.name == "Sebastian" && student.handedInOnTime) {
+      return "VG"
+    } else {
+      return "IG"
+    }
+}
+
 
 /*
   3. Variabelnamn är viktiga. Kika igenom följande kod och gör om och rätt.
@@ -172,7 +189,7 @@ function concatenateStrings() {
     fler och fler parametrar behöver läggas till? T.ex. avatar eller adress. Hitta en bättre
     lösning som är hållbar och skalar bättre. 
 */
-function createUser(
+/* function createUser(
   name: string,
   birthday: Date,
   email: string,
@@ -187,6 +204,29 @@ function createUser(
   console.log(userAge);
 
   if (!(userAge < 20)) {
+    // Logik för att skapa en användare
+  } else {
+    return "Du är under 20 år";
+  }
+} */
+
+
+function createUser(
+  name: string,
+  birthday: Date,
+  email: string,
+  password: string
+) {
+  // Validation
+  const minimumRequiredAge: number = 20;
+
+function getUserAge(): number {
+  let ageDiff = Date.now() - birthday.getTime();
+  let ageDate = new Date(ageDiff);
+  return userAge= Math.abs(ageDate.getUTCFullYear() - 1970);
+}
+
+  if (userAge > minimumRequiredAge) {
     // Logik för att skapa en användare
   } else {
     return "Du är under 20 år";
