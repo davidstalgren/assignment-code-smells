@@ -49,7 +49,8 @@ function getStudentStatus(student: Student): string {
 class Student {
   constructor(
     public name: string,
-    public handedInOnTime: boolean
+    public handedInOnTime: boolean,
+    public passed: boolean,
   ) {}
 }
 
@@ -85,6 +86,9 @@ function averageWeeklyTemperature(heights: Temp[]) {
   return r / 7;
 } */
 
+const MILLISECONDS_IN_A_WEEK: number = 604800000;
+const DAYS_IN_A_WEEK: number = 7;
+
 class Temp {
   constructor(
     public city: string, 
@@ -93,17 +97,15 @@ class Temp {
 }
 
 function averageWeeklyTemperature(weeklyTemperature: Temp[]) {
-  const MILLISECONDS_IN_A_WEEK: number = 604800000;
-  const DAYS_IN_A_WEEK: number = 7;
-  let averageDayTemperature: number = 0;
+  let totalTemperature: number = 0;
 
   for (let i = 0; i < weeklyTemperature.length; i++) {
     if (weeklyTemperature[i].city === "Stockholm" && weeklyTemperature[i].dateToday.getTime() > Date.now() - MILLISECONDS_IN_A_WEEK) {
-        averageDayTemperature += weeklyTemperature[i].temperature;
+      totalTemperature += weeklyTemperature[i].temperature;
     }
   }
 
-  return averageDayTemperature / DAYS_IN_A_WEEK;
+  return totalTemperature / DAYS_IN_A_WEEK;
 }
 
 /*
@@ -111,7 +113,7 @@ function averageWeeklyTemperature(weeklyTemperature: Temp[]) {
   Se om du kan göra det bättre. Inte bara presentationen räknas, även strukturer.
   */
 
-function showProduct(
+/* function showProduct(
   name: string,
   price: number,
   amount: number,
@@ -132,15 +134,42 @@ function showProduct(
   container.appendChild(imageTag);
   container.appendChild(pris);
   parent.appendChild(container);
+} */
+
+class Product {
+  constructor(
+    public name: string,
+    public price: number,
+    public amount: number,
+    public description: string,
+    public image: string,
+    public parent: HTMLElement) {}
+}
+
+function showProduct(product: Product) {
+  let container = document.createElement("div");
+  let title = document.createElement("h4");
+  let price = document.createElement("strong");
+  let imageTag = document.createElement("img");
+
+  title.innerHTML = product.name;
+  price.innerHTML = product.price.toString();
+  imageTag.src = product.image;
+
+  container.appendChild(title);
+  container.appendChild(imageTag);
+  container.appendChild(price);
+  product.parent.appendChild(container);
 }
 
 /*
   5. Följande funktion kommer presentera studenter. Men det finns ett antal saker som 
   går att göra betydligt bättre. Gör om så många som du kan hitta!
   */
-function presentStudents(students: Student[]) {
+/* function presentStudents(students: Student[]) {
   for (const student of students) {
     if (student.handedInOnTime) {
+
       let container = document.createElement("div");
       let checkbox = document.createElement("input");
       checkbox.type = "checkbox";
@@ -160,6 +189,25 @@ function presentStudents(students: Student[]) {
       listOfStudents?.appendChild(container);
     }
   }
+} */
+
+function presentStudents(students: Student[]) {
+  const passedStudentsList = document.querySelector('ul#passedstudents');
+  const failedStudentsList = document.querySelector('ul#failedstudents');
+
+  students.forEach((student) => {
+    const container = document.createElement('li');
+    const checkbox = document.createElement('input');
+    checkbox.type = 'checkbox';
+    checkbox.checked = student.handedInOnTime;
+    container.appendChild(checkbox);
+
+    if (student.handedInOnTime) {
+      passedStudentsList?.appendChild(container);
+    } else {
+      failedStudentsList?.appendChild(container)
+    }
+  })
 }
 
 /*
@@ -234,6 +282,6 @@ function createUser(user: User) {
   if (userAge >= MINIMUM_REQIRED_AGE) {
     // Logik för att skapa en användare
   } else {
-    return "Du är under 20 år";
+    return `Du är under ${MINIMUM_REQIRED_AGE} år`;
   }
 }
