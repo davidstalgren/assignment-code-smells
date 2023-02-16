@@ -137,13 +137,14 @@ function averageWeeklyTemperature(weeklyTemperature: Temp[]) {
 } */
 
 class Product {
-  constructor(
+  constructor (
     public name: string,
     public price: number,
     public amount: number,
     public description: string,
     public image: string,
-    public parent: HTMLElement) {}
+    public parent: HTMLElement,
+    ) {}
 }
 
 function showProduct(product: Product) {

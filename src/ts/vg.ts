@@ -74,10 +74,14 @@ export let cartList = JSON.parse(localStorage.getItem("savedCartList") || "[]");
 export let productList = JSON.parse(localStorage.getItem("savedList") || "[]");
 
 export function createProductHtml() {
-  let quantity = 0;
-  for (let i = 0; i < cartList.length; i++) {
+
+  let quantity = cartList.reduce((previous: number, current: number) => {
+    return previous + current;
+  });
+/*   for (let i = 0; i < cartList.length; i++) {
     quantity += cartList[i].quantity;
-  }
+  } */
+
   let floatingCart = document.getElementById(
     "floatingcartnumber"
   ) as HTMLElement;
@@ -93,15 +97,7 @@ export function createProductHtml() {
     dogImg.src = productList[i].picture;
     dogImg.alt = productList[i].pictureAlt;
 
-    dogImg.addEventListener("mouseover", () => {
-      cartSymbolContainer.classList.add("hover");
-      dogImg.classList.add("hover");
-    });
 
-    dogImg.addEventListener("mouseout", () => {
-      dogImg.classList.remove("hover");
-      cartSymbolContainer.classList.remove("hover");
-    });
 
     dogImgContainer.appendChild(dogImg);
     let cartSymbolContainer: HTMLDivElement = document.createElement("div");
@@ -111,6 +107,8 @@ export function createProductHtml() {
     let cartSymbol: HTMLElement = document.createElement("i");
     cartSymbol.className = "bi bi-bag-plus";
     cartSymbolContainer.appendChild(cartSymbol);
+
+    addEventlisteners(dogImg, cartSymbolContainer);
 
     let name: HTMLHeadingElement = document.createElement("h5");
     name.innerHTML = productList[i].name;
@@ -169,6 +167,18 @@ export function createProductHtml() {
   let listastext = JSON.stringify(productList);
   localStorage.setItem("savedList", listastext);
   sessionStorage.clear();
+
+  function addEventlisteners(dogImg: HTMLImageElement, cartSymbolContainer: HTMLDivElement) {
+    dogImg.addEventListener("mouseover", () => {
+      cartSymbolContainer.classList.add("hover");
+      dogImg.classList.add("hover");
+    });
+
+    dogImg.addEventListener("mouseout", () => {
+      dogImg.classList.remove("hover");
+      cartSymbolContainer.classList.remove("hover");
+    });
+  }
 }
 
 /*
